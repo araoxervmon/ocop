@@ -8441,7 +8441,7 @@ $sqlNfemale14to18="SELECT count(YEAR( CURDATE( ) ) - YEAR( STR_TO_DATE( dob, '%d
 		 $Nfemale14to18 = $querymain7->row(0)->Nfemale14to18;
 
    //`child_disability` = 'Blindness' 
-   
+  
 $sqlBmale0to3="SELECT count(YEAR( CURDATE( ) ) - YEAR( STR_TO_DATE( dob, '%d-%m-%Y' ) )) AS Bmale0to3 FROM ocop_general_info
          LEFT JOIN ocop_current_details ON ocop_current_details.ocop_current_details_id = ocop_general_info.ocop_general_info_id 
          LEFT JOIN household_entry ON household_entry.household_entry_id=ocop_general_info.ocop_general_info_id 
@@ -8522,7 +8522,7 @@ $sqlBfemale14to18="SELECT count(YEAR( CURDATE( ) ) - YEAR( STR_TO_DATE( dob, '%d
          $querymain15 = $this->db->query($sqlBfemale14to18);
 		 $Bfemale14to18 = $querymain15->row(0)->Bfemale14to18;
 		 
-		 
+
 		  //`child_disability` = 'Low vision' 
 
 $sqlLVmale0to3="SELECT count(YEAR( CURDATE( ) ) - YEAR( STR_TO_DATE( dob, '%d-%m-%Y' )) ) AS LVmale0to3 FROM ocop_general_info
@@ -8600,7 +8600,7 @@ $sqlLVfemale14to18="SELECT count(YEAR( CURDATE( ) ) - YEAR( STR_TO_DATE( dob, '%
          $querymain23 = $this->db->query($sqlLVfemale14to18);
 		 $LVfemale14to18 = $querymain23->row(0)->LVfemale14to18;
 
-		 
+		 	
 		 //`child_disability` = 'Leprosy cured' //
 
 
@@ -8686,7 +8686,7 @@ $sqlLCfemale14to18="SELECT count(YEAR( CURDATE( ) ) - YEAR( STR_TO_DATE( dob, '%
 				 
 		  //`child_disability` = 'Hearing impairment' //		
 
-		  
+	
 $sqlHImale0to3="SELECT count(YEAR( CURDATE( ) ) - YEAR( STR_TO_DATE( dob, '%d-%m-%Y' ) )) AS HImale0to3 FROM ocop_general_info
          LEFT JOIN ocop_current_details ON ocop_current_details.ocop_current_details_id = ocop_general_info.ocop_general_info_id 
          LEFT JOIN household_entry ON household_entry.household_entry_id=ocop_general_info.ocop_general_info_id 
@@ -8771,7 +8771,7 @@ $sqlHIfemale14to18="SELECT count(YEAR( CURDATE( ) ) - YEAR( STR_TO_DATE( dob, '%
 		 
 		 //`child_disability` = 'Locomotor disability' //
 
-
+ 
 $sqlLDmale0to3="SELECT count(YEAR( CURDATE( ) ) - YEAR( STR_TO_DATE( dob, '%d-%m-%Y' ) )) AS LDmale0to3 FROM ocop_general_info
          LEFT JOIN ocop_current_details ON ocop_current_details.ocop_current_details_id = ocop_general_info.ocop_general_info_id 
          LEFT JOIN household_entry ON household_entry.household_entry_id=ocop_general_info.ocop_general_info_id 
@@ -8853,7 +8853,7 @@ $sqlLDfemale14to18="SELECT count(YEAR( CURDATE( ) ) - YEAR( STR_TO_DATE( dob, '%
          $querymain53 = $this->db->query($sqlLDfemale14to18);
 		 $LDfemale14to18 = $querymain53->row(0)->LDfemale14to18;	
 		 
-		 
+		
 		 
 			 //`child_disability` = 'Mental retardation' //	 
 		 
@@ -8939,7 +8939,7 @@ $sqlMRfemale14to18="SELECT count(YEAR( CURDATE( ) ) - YEAR( STR_TO_DATE( dob, '%
 		 
 		 
 			 //`child_disability` = 'Mental illness' //	 
-		 
+
 		 
 $sqlMImale0to3="SELECT count(YEAR( CURDATE( ) ) - YEAR( STR_TO_DATE( dob, '%d-%m-%Y' )) ) AS MImale0to3 FROM ocop_general_info
          LEFT JOIN ocop_current_details ON ocop_current_details.ocop_current_details_id = ocop_general_info.ocop_general_info_id 
@@ -9019,7 +9019,7 @@ $sqlMIfemale14to18="SELECT count(YEAR( CURDATE( ) ) - YEAR( STR_TO_DATE( dob, '%
 		 	 
 			 
 			 //`child_disability` = 'Other' //	 
-		 
+	
 		 
 $sqlOTmale0to3="SELECT count( YEAR( CURDATE( ) ) - YEAR( STR_TO_DATE( dob, '%d-%m-%Y' )) ) AS OTmale0to3 FROM ocop_general_info
          LEFT JOIN ocop_current_details ON ocop_current_details.ocop_current_details_id = ocop_general_info.ocop_general_info_id 
@@ -11342,7 +11342,473 @@ siblings</span></h2></th>
 	
 	
 	
+		function childcurrent_grama_pdf($txtpanchayat='', $txttaluk='',  $txtdistrict='', $txtdivision='', $txtstate='', $txtreportlevel='', $txtyear='') {
+		
+		$sql=" SELECT child_name as childname, child_disability as caste, entry_grama_panchayat as panchayat, entry_village_name as entry_villages ,dob as dob, father_name as father_name , mother_name as mother_name, present_addr aS present_addr
+		FROM ocop_general_info
+		LEFT JOIN ocop_current_details ON ocop_current_details.ocop_current_details_id = ocop_general_info.ocop_general_info_id
+		LEFT JOIN household_entry ON household_entry.household_entry_id=ocop_general_info.ocop_general_info_id 
+		WHERE  household_entry.entry_grama_panchayat IN ('" . str_replace(",", "','", $txtpanchayat) . "') and `child_disability`='None' ";
+			
+		$querymain = $this->db->query($sql);
+
+		$sql1="SELECT child_name as childname, child_disability as caste, entry_grama_panchayat as panchayat, entry_village_name as entry_villages ,dob as dob, father_name as father_name , mother_name as mother_name, present_addr aS present_addr
+		FROM ocop_general_info
+		LEFT JOIN ocop_current_details ON ocop_current_details.ocop_current_details_id = ocop_general_info.ocop_general_info_id
+		LEFT JOIN household_entry ON household_entry.household_entry_id=ocop_general_info.ocop_general_info_id 
+		WHERE  household_entry.entry_grama_panchayat IN ('" . str_replace(",", "','", $txtpanchayat) . "') and `child_disability`='Blindness' ";
+			
+	   $querymain1 = $this->db->query($sql1);
+		
+		$sql23="SELECT child_name as childname, child_disability as caste, entry_grama_panchayat as panchayat, entry_village_name as entry_villages ,dob as dob, father_name as father_name , mother_name as mother_name, present_addr aS present_addr
+		FROM ocop_general_info
+		LEFT JOIN ocop_current_details ON ocop_current_details.ocop_current_details_id = ocop_general_info.ocop_general_info_id
+		LEFT JOIN household_entry ON household_entry.household_entry_id=ocop_general_info.ocop_general_info_id 
+		WHERE  household_entry.entry_grama_panchayat IN ('" . str_replace(",", "','", $txtpanchayat) . "') and `child_disability`='Low vision' ";
+			
+	 	$querymain23 = $this->db->query($sql23);
+
+		$sq34="SELECT child_name as childname, child_disability as caste, entry_grama_panchayat as panchayat, entry_village_name as entry_villages ,dob as dob, father_name as father_name , mother_name as mother_name, present_addr aS present_addr
+		FROM ocop_general_info
+		LEFT JOIN ocop_current_details ON ocop_current_details.ocop_current_details_id = ocop_general_info.ocop_general_info_id
+		LEFT JOIN household_entry ON household_entry.household_entry_id=ocop_general_info.ocop_general_info_id 
+		WHERE  household_entry.entry_grama_panchayat IN ('" . str_replace(",", "','", $txtpanchayat) . "') and `child_disability`='Leprosy cured' ";
+			
+	$querymain34 = $this->db->query($sq34);
 	
+
+	
+	
+	
+	$sq134="SELECT child_name as childname, child_disability as caste, entry_grama_panchayat as panchayat, entry_village_name as entry_villages ,dob as dob, father_name as father_name , mother_name as mother_name, present_addr aS present_addr
+		FROM ocop_general_info
+		LEFT JOIN ocop_current_details ON ocop_current_details.ocop_current_details_id = ocop_general_info.ocop_general_info_id
+		LEFT JOIN household_entry ON household_entry.household_entry_id=ocop_general_info.ocop_general_info_id 
+		WHERE  household_entry.entry_grama_panchayat IN ('" . str_replace(",", "','", $txtpanchayat) . "') and `child_disability`= 'Hearing impairment' ";
+			
+	$querymain134 = $this->db->query($sq134);
+	
+	$sq234="SELECT child_name as childname, child_disability as caste, entry_grama_panchayat as panchayat, entry_village_name as entry_villages ,dob as dob, father_name as father_name , mother_name as mother_name, present_addr aS present_addr
+		FROM ocop_general_info
+		LEFT JOIN ocop_current_details ON ocop_current_details.ocop_current_details_id = ocop_general_info.ocop_general_info_id
+		LEFT JOIN household_entry ON household_entry.household_entry_id=ocop_general_info.ocop_general_info_id 
+		WHERE  household_entry.entry_grama_panchayat IN ('" . str_replace(",", "','", $txtpanchayat) . "') and `child_disability`='Locomotor disability' ";
+	
+	$querymain234 = $this->db->query($sq234);
+	
+	$sq334="SELECT child_name as childname, child_disability as caste, entry_grama_panchayat as panchayat, entry_village_name as entry_villages ,dob as dob, father_name as father_name , mother_name as mother_name, present_addr aS present_addr
+		FROM ocop_general_info
+		LEFT JOIN ocop_current_details ON ocop_current_details.ocop_current_details_id = ocop_general_info.ocop_general_info_id
+		LEFT JOIN household_entry ON household_entry.household_entry_id=ocop_general_info.ocop_general_info_id 
+		WHERE  household_entry.entry_grama_panchayat IN ('" . str_replace(",", "','", $txtpanchayat) . "') and `child_disability`='Mental retardation' ";
+	
+	$querymain334 = $this->db->query($sq334);
+	
+	$sq434="SELECT child_name as childname, child_disability as caste, entry_grama_panchayat as panchayat, entry_village_name as entry_villages ,dob as dob, father_name as father_name , mother_name as mother_name, present_addr aS present_addr
+		FROM ocop_general_info
+		LEFT JOIN ocop_current_details ON ocop_current_details.ocop_current_details_id = ocop_general_info.ocop_general_info_id
+		LEFT JOIN household_entry ON household_entry.household_entry_id=ocop_general_info.ocop_general_info_id 
+		WHERE  household_entry.entry_grama_panchayat IN ('" . str_replace(",", "','", $txtpanchayat) . "') and `child_disability`='Mental illness' ";
+			
+	$querymain434 = $this->db->query($sq434);
+	
+	$sq534="SELECT child_name as childname, child_disability as caste, entry_grama_panchayat as panchayat, entry_village_name as entry_villages ,dob as dob, father_name as father_name , mother_name as mother_name, present_addr aS present_addr
+		FROM ocop_general_info
+		LEFT JOIN ocop_current_details ON ocop_current_details.ocop_current_details_id = ocop_general_info.ocop_general_info_id
+		LEFT JOIN household_entry ON household_entry.household_entry_id=ocop_general_info.ocop_general_info_id 
+		WHERE  household_entry.entry_grama_panchayat IN ('" . str_replace(",", "','", $txtpanchayat) . "') and `child_disability`='Other' ";
+			
+	$querymain534 = $this->db->query($sq534);
+		
+			
+		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+		$pdfname= 'OCOP CRT REPORT';
+		$resolution= array(72, 150);
+		$pdf->SetAuthor('ASPEN');
+		$pdf->SetTitle('Invoice');
+		$pdf->SetSubject('Invoice');
+		$pdf->SetKeywords('Aspen, bill, invoice');
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+		$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+		$pdf->SetFont('helvetica', '', 7);
+		$pdf->AddPage();		
+		$html = '
+		<div align="center">
+			<table width="100%" cellspacing="3" align="center" cellpadding="5" border="1px">
+	
+				<tr>
+					<td align="left" align="center" width="25%">
+					 <img src="./assets/images/ocop.png" ><br>
+					 <span style="font-size:13px" align="center"><b><h3>Our Children Our Progress<br>
+					(Child Tracking System)</h3></b></span>
+
+					</td>
+					<td align="center" width="75%">
+						<span style="text-align:center; font-size:23px;"><h3>It is a unique system in which child related information of all children will be collected and fed into the computer for analysis and monitoring the implementation of survival, development, protection and participation rights of the children as well as to find out the actions required.</h3></span>
+						 <img src="./assets/images/anu.png" ><br>
+					</td>
+				</tr>
+				<tr>
+					<td align="center">
+						Concept & Implementation by:<img src="./assets/images/hooduku.jpg" alt="hooduku" width="85px" height="31px">
+					</td>
+					<td>
+						<img src="./assets/images/crt.png" alt="crt" >
+						<img src="./assets/images/everychild.png" alt="everychild" >
+					</td>
+				</tr>			
+			</table> 
+		</div>';
+		$html .= '
+		<table width="100%" cellspacing="3" align="center" cellpadding="5" border="1px">
+			<tr>
+				<td colspan="4" align="center"><b>Report Title:Age-Wise Childrens Population (General Age Break up)</b></td>
+			</tr>
+			<tr>
+				<th align="left"><b>Report Generated Date</b></th>
+				<td><span style="color:red">'.$txtyear.'</span></td>
+				<th align="left"><b>Regional Report Level</b></th>
+				<td><span style="color:red">'.$txtreportlevel.'</span></td>
+			</tr>
+			<tr>
+				<th align="left"><b>State</b></th>
+				<td><span style="color:red">'.$txtstate.'</span></td>
+				<th align="left"><b>Division</b></th>
+				<td><span style="color:red">'.$txtdivision.'</span></td>
+			</tr>
+			<tr>
+				<th align="left"><b>District</b></th>
+				<td><span style="color:red">'.$txtdistrict.'</span></td>
+				<th align="left"><b>Taluk</b></th>
+				<td><span style="color:red">'.$txttaluk.'</span></td>
+			</tr>
+			<tr>
+				<th align="left"><b>Grama Panchayath</b></th>
+				<td><span style="color:red">'.$txtpanchayat.'</span></td>
+				<th align="left"><b>Village</b></th>
+				<td><span style="color:red">-</span></td>
+			</tr>
+		</table>';	
+		$html .= '
+		<table cellspacing="0" cellpadding="5" border="0">
+			<tr>
+				<td>&nbsp;</td> 
+			</tr>
+		</table>';
+		$html .= '
+		<table width="100%" cellspacing="3" align="center" cellpadding="5" style="border:11px !important;">
+		
+		<tr>
+				<th align="left"><h2><span style="color:red"> Name</span></h2></th>
+				<th align="left"><h2><span style="color:red">DOB</span></h2></th>
+				<th align="left"><h2><span style="color:red">Reason(none)</span></h2></th>
+				<th align="left"><h2><span style="color:red">Fathers Name </span></h2></th>
+				<th align="left"><h2><span style="color:red">Mothers Name </span></h2></th>
+				<th align="left"><h2><span style="color:red">Address</span></h2></th>
+				<th align="left"><h2><span style="color:red">Village</span></h2></th> 
+				<th align="left"><h2><span style="color:red">Panchayat</span></h2></th> 
+			</tr>';
+			
+					if ($querymain->num_rows() > 0)
+		{
+			foreach($querymain->result() as $rowitem)
+			{
+		$html .= '
+			<tr>
+				<td align="left"><h4>'.$rowitem->childname.'</h4></td>
+				<td align="left" ><h4>'.$rowitem->dob.'</h4></td>
+				<td align="left" ><h4>'.$rowitem->caste.'</h4></td>
+				<td align="left"><h4>'.$rowitem->father_name.'</h4></td>
+				<td align="left"><h4>'.$rowitem->mother_name.'</h4></td>
+				<td align="left"><h4>'.$rowitem->present_addr.'</h4></td>
+				<td align="left"><h4>'.$rowitem->entry_villages.'</h4></td>
+				<td align="left"><h4>'.$rowitem->panchayat.'</h4></td>
+			</tr>';
+			}
+		}
+			
+		'</table>';
+				$html .= '
+		<table width="100%" cellspacing="3" align="center" cellpadding="5" style="border:11px !important;">
+		
+			<tr>
+				<th align="left"><h2><span style="color:red">Name</span></h2></th>
+				<th align="left"><h2><span style="color:red">DOB</span></h2></th>
+					<th align="left"><h2><span style="color:red">Blindness</span></h2></th>
+				<th align="left"><h2><span style="color:red">Fathers Name </span></h2></th>
+				<th align="left"><h2><span style="color:red">Mothers Name </span></h2></th>
+				<th align="left"><h2><span style="color:red">Address</span></h2></th>
+				<th align="left"><h2><span style="color:red">Village</span></h2></th> 
+				<th align="left"><h2><span style="color:red">Panchayat</span></h2></th> 
+			</tr>';
+			
+				if ($querymain1->num_rows() > 0)
+		{
+			foreach($querymain1->result() as $rowitem1)
+			{
+		$html .= '
+			<tr>
+				<td align="left"><h4>'.$rowitem1->childname.'</h4></td>
+				<td align="left" ><h4>'.$rowitem1->dob.'</h4></td>
+				<td align="left" ><h4>'.$rowitem1->caste.'</h4></td>
+				<td align="left"><h4>'.$rowitem1->father_name.'</h4></td>
+				<td align="left"><h4>'.$rowitem1->mother_name.'</h4></td>
+				<td align="left"><h4>'.$rowitem1->present_addr.'</h4></td>
+				<td align="left"><h4>'.$rowitem1->entry_villages.'</h4></td>
+				<td align="left"><h4>'.$rowitem1->panchayat.'</h4></td>
+			</tr>';
+			}
+		}
+			
+		'</table>';
+		$html .= '
+		<table width="100%" cellspacing="3" align="center" cellpadding="5" style="border:11px !important;">
+		
+			<tr>
+				<th align="left"><h2><span style="color:red">Name</span></h2></th>
+				<th align="left"><h2><span style="color:red">DOB</span></h2></th>
+				<th align="left"><h2><span style="color:red">Low vision</span></h2></th>
+				<th align="left"><h2><span style="color:red">Fathers Name </span></h2></th>
+				<th align="left"><h2><span style="color:red">Mothers Name </span></h2></th>
+				<th align="left"><h2><span style="color:red">Address</span></h2></th>
+				<th align="left"><h2><span style="color:red">Village</span></h2></th> 
+				<th align="left"><h2><span style="color:red">Panchayat</span></h2></th> 
+			</tr>';
+			
+				if ($querymain23->num_rows() > 0)
+		{
+			foreach($querymain23->result() as $rowitem1)
+			{
+		$html .= '
+			<tr>
+				<td align="left"><h4>'.$rowitem1->childname.'</h4></td>
+				<td align="left" ><h4>'.$rowitem1->dob.'</h4></td>
+				<td align="left" ><h4>'.$rowitem1->caste.'</h4></td>
+				<td align="left"><h4>'.$rowitem1->father_name.'</h4></td>
+				<td align="left"><h4>'.$rowitem1->mother_name.'</h4></td>
+				<td align="left"><h4>'.$rowitem1->present_addr.'</h4></td>
+				<td align="left"><h4>'.$rowitem1->entry_villages.'</h4></td>
+				<td align="left"><h4>'.$rowitem1->panchayat.'</h4></td>
+			</tr>';
+			}
+		}
+			
+		'</table>';
+		$html .= '
+		<table width="100%" cellspacing="3" align="center" cellpadding="5" style="border:11px !important;">
+		
+			<tr>
+				<th align="left"><h2><span style="color:red">Name</span></h2></th>
+				<th align="left"><h2><span style="color:red">DOB</span></h2></th>
+					<th align="left"><h2><span style="color:red">Leprosy cured</span></h2></th>
+				<th align="left"><h2><span style="color:red">Fathers Name </span></h2></th>
+				<th align="left"><h2><span style="color:red">Mothers Name </span></h2></th>
+				<th align="left"><h2><span style="color:red">Address</span></h2></th>
+				<th align="left"><h2><span style="color:red">Village</span></h2></th> 
+				<th align="left"><h2><span style="color:red">Panchayat</span></h2></th> 
+			</tr>';
+			
+				if ($querymain34->num_rows() > 0)
+		{
+			foreach($querymain34->result() as $rowitem1)
+			{
+		$html .= '
+			<tr>
+				<td align="left"><h4>'.$rowitem1->childname.'</h4></td>
+				<td align="left" ><h4>'.$rowitem1->dob.'</h4></td>
+				<td align="left" ><h4>'.$rowitem1->caste.'</h4></td>
+				<td align="left"><h4>'.$rowitem1->father_name.'</h4></td>
+				<td align="left"><h4>'.$rowitem1->mother_name.'</h4></td>
+				<td align="left"><h4>'.$rowitem1->present_addr.'</h4></td>
+				<td align="left"><h4>'.$rowitem1->entry_villages.'</h4></td>
+				<td align="left"><h4>'.$rowitem1->panchayat.'</h4></td>
+			</tr>';
+			}
+		}
+			
+		'</table>';
+		
+		
+		
+		
+		
+		$html .= '
+		<table width="100%" cellspacing="3" align="center" cellpadding="5" style="border:11px !important;">
+		
+		<tr>
+				<th align="left"><h2><span style="color:red"> Name</span></h2></th>
+				<th align="left"><h2><span style="color:red">DOB</span></h2></th>
+				<th align="left"><h2><span style="color:red">Hearing impairment</span></h2></th>
+				<th align="left"><h2><span style="color:red">Fathers Name </span></h2></th>
+				<th align="left"><h2><span style="color:red">Mothers Name </span></h2></th>
+				<th align="left"><h2><span style="color:red">Address</span></h2></th>
+				<th align="left"><h2><span style="color:red">Village</span></h2></th> 
+				<th align="left"><h2><span style="color:red">Panchayat</span></h2></th> 
+			</tr>';
+			
+					if ($querymain134->num_rows() > 0)
+		{
+			foreach($querymain134->result() as $rowitem)
+			{
+		$html .= '
+			<tr>
+				<td align="left"><h4>'.$rowitem->childname.'</h4></td>
+				<td align="left" ><h4>'.$rowitem->dob.'</h4></td>
+				<td align="left" ><h4>'.$rowitem->caste.'</h4></td>
+				<td align="left"><h4>'.$rowitem->father_name.'</h4></td>
+				<td align="left"><h4>'.$rowitem->mother_name.'</h4></td>
+				<td align="left"><h4>'.$rowitem->present_addr.'</h4></td>
+				<td align="left"><h4>'.$rowitem->entry_villages.'</h4></td>
+				<td align="left"><h4>'.$rowitem->panchayat.'</h4></td>
+			</tr>';
+			}
+		}
+			
+		'</table>';
+		$html .= '
+		<table width="100%" cellspacing="3" align="center" cellpadding="5" style="border:11px !important;">
+		
+		<tr>
+				<th align="left"><h2><span style="color:red"> Name</span></h2></th>
+				<th align="left"><h2><span style="color:red">DOB</span></h2></th>
+				<th align="left"><h2><span style="color:red">Locomotor disability</span></h2></th>
+				<th align="left"><h2><span style="color:red">Fathers Name </span></h2></th>
+				<th align="left"><h2><span style="color:red">Mothers Name </span></h2></th>
+				<th align="left"><h2><span style="color:red">Address</span></h2></th>
+				<th align="left"><h2><span style="color:red">Village</span></h2></th> 
+				<th align="left"><h2><span style="color:red">Panchayat</span></h2></th> 
+			</tr>';
+			
+					if ($querymain234->num_rows() > 0)
+		{
+			foreach($querymain234->result() as $rowitem)
+			{
+		$html .= '
+			<tr>
+				<td align="left"><h4>'.$rowitem->childname.'</h4></td>
+				<td align="left" ><h4>'.$rowitem->dob.'</h4></td>
+				<td align="left" ><h4>'.$rowitem->caste.'</h4></td>
+				<td align="left"><h4>'.$rowitem->father_name.'</h4></td>
+				<td align="left"><h4>'.$rowitem->mother_name.'</h4></td>
+				<td align="left"><h4>'.$rowitem->present_addr.'</h4></td>
+				<td align="left"><h4>'.$rowitem->entry_villages.'</h4></td>
+				<td align="left"><h4>'.$rowitem->panchayat.'</h4></td>
+			</tr>';
+			}
+		}
+			
+		'</table>';
+		$html .= '
+		<table width="100%" cellspacing="3" align="center" cellpadding="5" style="border:11px !important;">
+		
+		<tr>
+				<th align="left"><h2><span style="color:red"> Name</span></h2></th>
+				<th align="left"><h2><span style="color:red">DOB</span></h2></th>
+				<th align="left"><h2><span style="color:red">Mental retardation</span></h2></th>
+				<th align="left"><h2><span style="color:red">Fathers Name </span></h2></th>
+				<th align="left"><h2><span style="color:red">Mothers Name </span></h2></th>
+				<th align="left"><h2><span style="color:red">Address</span></h2></th>
+				<th align="left"><h2><span style="color:red">Village</span></h2></th> 
+				<th align="left"><h2><span style="color:red">Panchayat</span></h2></th> 
+			</tr>';
+			
+					if ($querymain334->num_rows() > 0)
+		{
+			foreach($querymain334->result() as $rowitem)
+			{
+		$html .= '
+			<tr>
+				<td align="left"><h4>'.$rowitem->childname.'</h4></td>
+				<td align="left" ><h4>'.$rowitem->dob.'</h4></td>
+				<td align="left" ><h4>'.$rowitem->caste.'</h4></td>
+				<td align="left"><h4>'.$rowitem->father_name.'</h4></td>
+				<td align="left"><h4>'.$rowitem->mother_name.'</h4></td>
+				<td align="left"><h4>'.$rowitem->present_addr.'</h4></td>
+				<td align="left"><h4>'.$rowitem->entry_villages.'</h4></td>
+				<td align="left"><h4>'.$rowitem->panchayat.'</h4></td>
+			</tr>';
+			}
+		}
+			
+		'</table>';
+		$html .= '
+		<table width="100%" cellspacing="3" align="center" cellpadding="5" style="border:11px !important;">
+		
+		<tr>
+				<th align="left"><h2><span style="color:red"> Name</span></h2></th>
+				<th align="left"><h2><span style="color:red">DOB</span></h2></th>
+				<th align="left"><h2><span style="color:red">Mental illness</span></h2></th>
+				<th align="left"><h2><span style="color:red">Fathers Name </span></h2></th>
+				<th align="left"><h2><span style="color:red">Mothers Name </span></h2></th>
+				<th align="left"><h2><span style="color:red">Address</span></h2></th>
+				<th align="left"><h2><span style="color:red">Village</span></h2></th> 
+				<th align="left"><h2><span style="color:red">Panchayat</span></h2></th> 
+			</tr>';
+			
+					if ($querymain434->num_rows() > 0)
+		{
+			foreach($querymain434->result() as $rowitem)
+			{
+		$html .= '
+			<tr>
+				<td align="left"><h4>'.$rowitem->childname.'</h4></td>
+				<td align="left" ><h4>'.$rowitem->dob.'</h4></td>
+				<td align="left" ><h4>'.$rowitem->caste.'</h4></td>
+				<td align="left"><h4>'.$rowitem->father_name.'</h4></td>
+				<td align="left"><h4>'.$rowitem->mother_name.'</h4></td>
+				<td align="left"><h4>'.$rowitem->present_addr.'</h4></td>
+				<td align="left"><h4>'.$rowitem->entry_villages.'</h4></td>
+				<td align="left"><h4>'.$rowitem->panchayat.'</h4></td>
+			</tr>';
+			}
+		}
+			
+		'</table>';
+		$html .= '
+		<table width="100%" cellspacing="3" align="center" cellpadding="5" style="border:11px !important;">
+		
+		<tr>
+				<th align="left"><h2><span style="color:red"> Name</span></h2></th>
+				<th align="left"><h2><span style="color:red">DOB</span></h2></th>
+				<th align="left"><h2><span style="color:red">Other</span></h2></th>
+				<th align="left"><h2><span style="color:red">Fathers Name </span></h2></th>
+				<th align="left"><h2><span style="color:red">Mothers Name </span></h2></th>
+				<th align="left"><h2><span style="color:red">Address</span></h2></th>
+				<th align="left"><h2><span style="color:red">Village</span></h2></th> 
+				<th align="left"><h2><span style="color:red">Panchayat</span></h2></th> 
+			</tr>';
+			
+					if ($querymain534->num_rows() > 0)
+		{
+			foreach($querymain534->result() as $rowitem)
+			{
+		$html .= '
+			<tr>
+				<td align="left"><h4>'.$rowitem->childname.'</h4></td>
+				<td align="left" ><h4>'.$rowitem->dob.'</h4></td>
+				<td align="left" ><h4>'.$rowitem->caste.'</h4></td>
+				<td align="left"><h4>'.$rowitem->father_name.'</h4></td>
+				<td align="left"><h4>'.$rowitem->mother_name.'</h4></td>
+				<td align="left"><h4>'.$rowitem->present_addr.'</h4></td>
+				<td align="left"><h4>'.$rowitem->entry_villages.'</h4></td>
+				<td align="left"><h4>'.$rowitem->panchayat.'</h4></td>
+			</tr>';
+			}
+		}
+			
+		'</table>';
+		$pdf->writeHTML($html, true, 0, true, true);
+		$pdf->Ln();
+		'<div style="padding-top:170%;">';
+		$pdf->lastPage();
+		$pdf->Output($pdfname, 'I');
+	}
 	
 	
 	

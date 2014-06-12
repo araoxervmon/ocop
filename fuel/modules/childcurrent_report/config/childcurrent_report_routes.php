@@ -119,4 +119,4 @@ $route[FUEL_ROUTE.'childcurrent_report/childdropout_grama_pdf']     = 'childcurr
 $route[FUEL_ROUTE.'childcurrent_report/childprimary_grama_pdf']     = 'childcurrent_report/childprimary_grama_pdf';
 $route[FUEL_ROUTE.'childcurrent_report/childbirthreg_grama_pdf']     = 'childcurrent_report/childbirthreg_grama_pdf';
 $route[FUEL_ROUTE.'childcurrent_report/childchildminor_pdf']     = 'childcurrent_report/childchildminor_pdf';
-
+$route[FUEL_ROUTE.'childcurrent_report/childcurrent_grama_pdf']     = 'childcurrent_report/childcurrent_grama_pdf';

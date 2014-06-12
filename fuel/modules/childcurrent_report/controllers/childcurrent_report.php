@@ -1051,6 +1051,23 @@ class childcurrent_report extends Fuel_base_controller {
 	
 	
 	
+				function childcurrent_grama_pdf(){
+	if ($this->fuel_auth->has_permission('childcurrent_report/childcurrent_grama_pdf'))
+		{
+		$queryStr = $_SERVER['QUERY_STRING'];
+        parse_str($queryStr, $args);		
+		$txtpanchayat = $args["txtpanchayat"];
+		$txttaluk = $args["txttaluk"];
+		$txtdistrict = $args["txtdistrict"];
+		$txtdivision = $args["txtdivision"];
+		$txtstate = $args["txtstate"];
+		$txtreportlevel = $args["txtreportlevel"];
+		$txtyear = $args["txtyear"];
+		//$ddlagebreakup = $args["ddlagebreakup"];
+		$this->load->module_model(CHILDGENERAL_REPORT_FOLDER, 'childcurrent_report_model');
+		$childgenerateb = $this->childcurrent_report_model->childcurrent_grama_pdf( $txtpanchayat , $txttaluk,  $txtdistrict, $txtdivision, $txtstate, $txtreportlevel, $txtyear );
+		}
+	}
 	
 	
 
